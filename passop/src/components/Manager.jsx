@@ -4,6 +4,7 @@ const Manager = () => {
     const ref = useRef();
     const [form, setForm] = useState({ site: "", username: "", password: "" });
     const [passwordArray, setPasswordArray] = useState([])
+    const [passWord, setPassword] = useState(true)
 
 
 
@@ -18,6 +19,10 @@ const Manager = () => {
             passwordArray = []
         }
     }, [])
+
+    const handleClick = ()=>{
+        setPassword(!passWord)
+    }
 
     const showPassword = () => {
         if (ref.current.src.includes("/icon/eyecross.svg")) {
@@ -37,7 +42,8 @@ const Manager = () => {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
+    
+    
     return (
         <>
             <div className="absolute top-0 z-[-2] h-screen w-screen bg-green-50 bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]"></div>
@@ -71,13 +77,13 @@ const Manager = () => {
                             <input
                                 value={form.password || ''}
                                 onChange={handleChange}
-                                type="password" // Changed type to password
+                                type={passWord ? "password" : "text"} // Changed type to password
                                 placeholder='Enter password'
                                 className="rounded-full border border-green-700 w-full p-4 py-1"
                                 name='password'
                             />
                             <span className='absolute right-2 top-2 cursor-pointer' onClick={showPassword}>
-                                <img ref={ref} src="/public/icon/eye.svg" alt="eye" width={20} />
+                                <img ref={ref} src="/icon/eye.svg" alt="eye" width={20} />
                             </span>
                         </div>
                     </div>
@@ -90,7 +96,7 @@ const Manager = () => {
                         >
                         </lord-icon>
                         Add A Password
-                    </button>
+                  </button>
                 </div>
                 <div className="passwords"><h2 className='font-bold text-2xl py-4 text-center'>Your passwords</h2>
                     {passwordArray.length === 0 ? <div>No password to show</div> : 
@@ -99,25 +105,17 @@ const Manager = () => {
                             <tr>
                                 <th className='py-2'>Site</th>
                                 <th className='py-2'>Username</th>
-                                <th className='py-2'>passord</th>
+                                <th className='py-2'>passWord</th>
                             </tr>
                         </thead>
                         <tbody className='bg-green-100'>
-                            <tr>
-                                <td className='text-center w-32 py-2 border border-white'>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                                <td className='text-center w-32 py-2 border border-white'>Malcolm Lockyer</td>
-                                <td className='text-center w-32 py-2 border border-white'>1961</td>
+                            {passwordArray.map((item,index)=>{
+                                return <tr key={index}>
+                                <td className='text-center w-32 py-2 border border-white' ><a href={item.site} target='blank'>{item.site}</a></td>
+                                <td className='text-center w-32 py-2 border border-white'>{item.username}</td>
+                                <td className='text-center w-32 py-2 border border-white'>{item.password}</td>
                             </tr>
-                            <tr>
-                                <td className='text-center w-32 py-2 border border-white'>Witchy Woman</td>
-                                <td className='text-center w-32 py-2 border border-white'>The Eagles</td>
-                                <td className='text-center w-32 py-2 border border-white'>1972</td>
-                            </tr>
-                            <tr>
-                                <td className='text-center w-32 py-2 border border-white'>Shining Star</td>
-                                <td className='text-center w-32 py-2 border border-white'>Earth, Wind, and Fire</td>
-                                <td className='text-center w-32 py-2 border border-white'>1975</td>
-                            </tr>
+                             })}
                         </tbody>
                     </table>}
                 </div>
