@@ -4,8 +4,7 @@ const Manager = () => {
     const ref = useRef();
     const [form, setForm] = useState({ site: "", username: "", password: "" });
     const [passwordArray, setPasswordArray] = useState([])
-    const [passWord, setPassword] = useState(true)
-
+   
 
 
 
@@ -19,11 +18,6 @@ const Manager = () => {
             passwordArray = []
         }
     }, [])
-
-    const handleClick = ()=>{
-        setPassword(!passWord)
-    }
-
     const showPassword = () => {
         if (ref.current.src.includes("/icon/eyecross.svg")) {
             ref.current.src = "/icon/eye.svg";
@@ -77,7 +71,7 @@ const Manager = () => {
                             <input
                                 value={form.password || ''}
                                 onChange={handleChange}
-                                type={passWord ? "password" : "text"} // Changed type to password
+                                type="text" // Changed type to password
                                 placeholder='Enter password'
                                 className="rounded-full border border-green-700 w-full p-4 py-1"
                                 name='password'
@@ -125,3 +119,5 @@ const Manager = () => {
 };
 
 export default Manager;
+
+
