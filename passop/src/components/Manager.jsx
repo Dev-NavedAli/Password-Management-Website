@@ -1,4 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const Manager = () => {
     const ref = useRef();
@@ -18,8 +22,19 @@ const Manager = () => {
         }
     }, [])
 
-    let copyText = (text)=>{
+    let copyText = (text) => {
         navigator.clipboard.writeText(text);
+
+        toast('Copy to Clipboard', {
+            position: "top-center",   //For Toast
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     }
 
     const showPassword = () => {
@@ -33,7 +48,7 @@ const Manager = () => {
     };
 
     const savePassword = () => {
-        setPasswordArray([...passwordArray, form])
+        setPasswordArray([...passwordArray, form ])
         localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
         console.log([...passwordArray, form])
 
@@ -50,6 +65,22 @@ const Manager = () => {
 
     return (
         <>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}                         // For Toast Notification at React-tostify from github in github there is a site 
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition="Bounce"
+            />
+            {/* Same as */}
+            <ToastContainer />
+
 
             <div className="mycontainer">
                 <h1 className='text-4xl font-bold text-center'><span className='text-green-800'>&lt;</span>Pass
@@ -99,7 +130,7 @@ const Manager = () => {
                             trigger="hover"
                         >
                         </lord-icon>
-                        Add A Password
+                        Save Password
                     </button>
                     <button onClick={handleDelete}></button>
                 </div>
@@ -111,13 +142,14 @@ const Manager = () => {
                                     <th className='py-2'>Site</th>
                                     <th className='py-2'>Username</th>
                                     <th className='py-2'>passWord</th>
+                                    <th className='py-2'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody className='bg-green-100'>
                                 {passwordArray.map((item, index) => {
                                     return <tr key={index}>
                                         <td className='text-center py-2 border border-white flex justify-center items-center ' ><a href={item.site} target='blank'>{item.site}</a>
-                                            <div className='lordicon size-7 cursor-pointer' onClick={copyText(item.site)}>
+                                            <div className='lordicon size-7 cursor-pointer' onClick={() => { copyText(item.site) }}>
                                                 <lord-icon
                                                     style={{ "width": "20px", "height": "25px", "paddingTop": "6px", "paddingLeft": "2px" }}
                                                     src="https://cdn.lordicon.com/iykgtsbt.json"
@@ -129,7 +161,7 @@ const Manager = () => {
                                         <td className='justify-center text-center  py-2 border border-white'>
                                             <div className='flex justify-center items-center'>
                                                 <span>{item.username}</span>
-                                                <div className='lordicon size-7 cursor-pointer' onClick={copyText(item.username)}>
+                                                <div className='lordicon size-7 cursor-pointer' onClick={() => { copyText(item.username) }}>
                                                     <lord-icon
                                                         style={{ "width": "20px", "height": "25px", "paddingTop": "6px", "paddingLeft": "2px" }}
                                                         src="https://cdn.lordicon.com/iykgtsbt.json"
@@ -137,12 +169,12 @@ const Manager = () => {
                                                     </lord-icon>
                                                 </div>
                                             </div>
-                                            
+
                                         </td>
                                         <td className='text-center w-32 py-2 border border-white'>
                                             <div className='flex justify-center items-center'>
                                                 <span>{item.password}</span>
-                                                <div className='lordicon size-7 cursor-pointer' onClick={copyText(item.password)}>
+                                                <div className='lordicon size-7 cursor-pointer' onClick={() => { copyText(item.password) }}>
                                                     <lord-icon
                                                         style={{ "width": "20px", "height": "25px", "paddingTop": "3px", "paddingLeft": "2px" }}
                                                         src="https://cdn.lordicon.com/iykgtsbt.json"
@@ -151,6 +183,21 @@ const Manager = () => {
 
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td className='text-center w-32 py-2 border border-white'>
+                                            <span className='cursor-pointer  mx-1'>
+                                                <lord-icon
+                                                src="https://cdn.lordicon.com/skkahier.json"
+                                                trigger="hover"
+                                                style={{ "width": "25px", "height": "25px", "paddingTop": "5px" }}>
+                                            </lord-icon>
+                                            </span>
+                                            <span className='cursor-pointer mx-1'>
+                                                <lord-icon
+                                                    src="https://cdn.lordicon.com/wuvorxbv.json"
+                                                    trigger="hover"
+                                                    style={{ "width": "25px", "height": "25px", "paddingTop": "5px" }}>
+                                                </lord-icon></span>
                                         </td>
                                     </tr>
                                 })}
